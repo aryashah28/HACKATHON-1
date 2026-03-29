@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getMyExpenses, getPendingApprovals, getCompanyExpenses, getTeamExpenses } from "../api";
 import { BarChart, CheckCircle, Clock, XCircle, Users, ArrowUpRight, Plus, ShieldCheck } from "lucide-react";
 
+
 export default function Dashboard() {
   const [role, setRole] = useState("");
   const [username, setUsername] = useState("");
@@ -35,7 +36,7 @@ export default function Dashboard() {
       setError("");
 
       const promises = [];
-      
+
       // All roles can see their own expenses
       promises.push(getMyExpenses());
 
@@ -51,9 +52,9 @@ export default function Dashboard() {
       }
 
       const results = await Promise.all(promises);
-      
+
       setExpenses(results[0]?.data.expenses || []);
-      
+
       if (userRole === "manager" || userRole === "admin") {
         setPendingApprovals(results[1]?.data.pending || []);
         setTeamExpenses(results[2]?.data.expenses || []);
@@ -102,7 +103,7 @@ export default function Dashboard() {
           <h1 className="text-4xl font-bold text-white tracking-tight">System Dashboard</h1>
           <p className="text-white/60 mt-2">Welcome back, <span className="text-blue-400 font-semibold">{username}</span></p>
         </div>
-        <button 
+        <button
           onClick={() => navigate("/submit")}
           className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition flex items-center gap-2 shadow-lg shadow-blue-500/20"
         >
@@ -118,34 +119,34 @@ export default function Dashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard 
-          title="My Submissions" 
-          value={expenses.length} 
-          icon={BarChart} 
-          colorClass="text-blue-400" 
+        <StatCard
+          title="My Submissions"
+          value={expenses.length}
+          icon={BarChart}
+          colorClass="text-blue-400"
         />
-        <StatCard 
-          title="Awaiting Action" 
-          value={pendingApprovals.length} 
-          icon={Clock} 
-          colorClass="text-yellow-400" 
+        <StatCard
+          title="Awaiting Action"
+          value={pendingApprovals.length}
+          icon={Clock}
+          colorClass="text-yellow-400"
         />
-        <StatCard 
-          title="Team Overview" 
-          value={teamExpenses.length} 
-          icon={Users} 
-          colorClass="text-purple-400" 
+        <StatCard
+          title="Team Overview"
+          value={teamExpenses.length}
+          icon={Users}
+          colorClass="text-purple-400"
         />
-        <StatCard 
-          title="Final Approved" 
-          value={expenses.filter(e => e.status === 'approved').length} 
-          icon={CheckCircle} 
-          colorClass="text-green-400" 
+        <StatCard
+          title="Final Approved"
+          value={expenses.filter(e => e.status === 'approved').length}
+          icon={CheckCircle}
+          colorClass="text-green-400"
         />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         {/* Main Feed: My Recent Activity */}
         <div className="lg:col-span-2 space-y-6">
           <section className="backdrop-blur-xl bg-white/10 rounded-2xl border border-white/20 p-6">
@@ -153,14 +154,14 @@ export default function Dashboard() {
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 <ArrowUpRight size={20} className="text-blue-400" /> My Recent Expenses
               </h2>
-              <button 
+              <button
                 onClick={() => navigate("/expenses")}
                 className="text-sm text-blue-400 hover:text-blue-300 font-medium"
               >
                 View All
               </button>
             </div>
-            
+
             <div className="space-y-4">
               {expenses.length === 0 ? (
                 <div className="text-center py-10 text-white/40 italic text-sm">No expenses found. Start by submitting one!</div>
@@ -173,11 +174,10 @@ export default function Dashboard() {
                     </div>
                     <div className="text-right">
                       <p className="text-white font-black text-xl">${exp.amount}</p>
-                      <span className={`inline-block px-2 py-1 rounded-md text-[10px] font-bold mt-2 tracking-widest ${
-                        exp.status === 'approved' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                      <span className={`inline-block px-2 py-1 rounded-md text-[10px] font-bold mt-2 tracking-widest ${exp.status === 'approved' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
                         exp.status === 'rejected' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
-                        'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
-                      }`}>
+                          'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                        }`}>
                         {exp.status.toUpperCase()}
                       </span>
                     </div>
@@ -240,7 +240,7 @@ export default function Dashboard() {
                         <p className="text-blue-400 font-black">${approval.amount}</p>
                       </div>
                       <p className="text-white/50 text-xs line-clamp-1 mb-3">{approval.description}</p>
-                      <button 
+                      <button
                         onClick={() => navigate("/approvals")}
                         className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs font-bold transition"
                       >
@@ -251,7 +251,7 @@ export default function Dashboard() {
                 )}
               </div>
               {pendingApprovals.length > 3 && (
-                <button 
+                <button
                   onClick={() => navigate("/approvals")}
                   className="w-full mt-4 text-center text-sm text-blue-400 font-medium"
                 >
@@ -270,7 +270,7 @@ export default function Dashboard() {
               <p className="text-white/60 text-sm mb-4 leading-relaxed">
                 Full system control. Manage users, update roles, and configure custom approval rules for the entire company.
               </p>
-              <button 
+              <button
                 onClick={() => navigate("/admin")}
                 className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold transition shadow-lg shadow-purple-900/40"
               >
@@ -278,6 +278,7 @@ export default function Dashboard() {
               </button>
             </section>
           )}
+
 
           {/* App Tips */}
           <section className="bg-white/5 rounded-2xl p-6 border border-white/5">
