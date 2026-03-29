@@ -75,10 +75,24 @@ export const getPendingApprovals = () => {
   });
 };
 
-export const approveExpense = (approval_id, decision, comments) =>
+export const approveExpense = (approval_id, decision, comments) => 
   API.post("/expense/approve", {}, { 
     params: { approval_id, decision, comments } 
   });
+
+export const approveOverride = (expense_id, decision) => {
+  const admin_id = parseInt(localStorage.getItem("user_id"));
+  return API.post("/expense/approve-override", {}, { 
+    params: { expense_id, decision, admin_id } 
+  });
+};
+
+export const getTeamExpenses = () => {
+  const manager_id = parseInt(localStorage.getItem("user_id"));
+  return API.get("/expense/team-expenses", { 
+    params: { manager_id } 
+  });
+};
 
 export const getCompanyExpenses = () => {
   const company_id = parseInt(localStorage.getItem("company_id"));
@@ -140,7 +154,7 @@ export const getCompanyUsers = () => {
 
 export const changeUserRole = (user_id, new_role) => {
   const admin_id = parseInt(localStorage.getItem("user_id"));
-  return API.put(`/users/users/${user_id}/change_role`, 
+  return API.put(`/users/${user_id}/change_role`, 
     { new_role }, 
     { params: { admin_id } }
   );
@@ -148,7 +162,7 @@ export const changeUserRole = (user_id, new_role) => {
 
 export const assignUserManager = (user_id, manager_id) => {
   const admin_id = parseInt(localStorage.getItem("user_id"));
-  return API.put(`/users/users/${user_id}/assign_manager`, 
+  return API.put(`/users/${user_id}/assign_manager`, 
     { manager_id }, 
     { params: { admin_id } }
   );
@@ -156,7 +170,7 @@ export const assignUserManager = (user_id, manager_id) => {
 
 export const deleteUser = (user_id) => {
   const admin_id = parseInt(localStorage.getItem("user_id"));
-  return API.delete(`/users/users/${user_id}`, { 
+  return API.delete(`/users/${user_id}`, { 
     params: { admin_id } 
   });
 };

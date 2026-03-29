@@ -109,6 +109,70 @@ def approve_expense(approval_id: int, decision: str, comments: str = None, db: S
         "expense_id": approval.expense_id
     }
 
+@router.post("/approve-override")
+def admin_approve_override(expense_id: int, decision: str, admin_id: int, db: Session = Depends(get_db)):
+    """Admin overrides current approval step"""
+    from models.approval import Approval
+    from models.expense import Expense
+    from services.approval_engine import move_to_next_approval
+    
+    admin = db.query(User).get(admin_id)
+    if not admin or admin.role != "admin":
+        raise HTTPException(status_code=403, detail="Only admins can override approvals")
+    
+    # Find current pending approval
+    approval = db.query(Approval).filter_by(
+        expense_id=expense_id,
+        status="pending",
+        is_current=True
+    ).first()
+    
+    if not approval:
+        # Check if expense itself is pending
+        expense = db.query(Expense).get(expense_id)
+        if not expense or expense.status != "pending":
+            raise HTTPException(status_code=400, detail="No active approval pending for this expense")
+        
+        # If no approval record but expense is pending, force it
+        expense.status = decision
+        db.commit()
+    else:
+        # Force decision on the current approval record
+        move_to_next_approval(db, approval.expense, approval.approver_id, decision)
+    
+    return {"message": f"Admin override: {decision}", "expense_id": expense_id}
+
+@router.get("/team-expenses")
+def get_team_expenses(manager_id: int, db: Session = Depends(get_db)):
+    """Manager views history for their subordinates"""
+    manager = db.query(User).get(manager_id)
+    if not manager or manager.role not in ["manager", "admin"]:
+        raise HTTPException(status_code=403, detail="Only managers or admins can view team history")
+    
+    # Find all users where this manager_id is their manager
+    subordinates = db.query(User).filter_by(manager_id=manager_id).all()
+    sub_ids = [s.id for s in subordinates]
+    
+    expenses = db.query(Expense).filter(Expense.user_id.in_(sub_ids)).order_by(Expense.created_at.desc()).all()
+    
+    return {
+        "manager": manager.username,
+        "total": len(expenses),
+        "expenses": [
+            {
+                "id": e.id,
+                "user_id": e.user_id,
+                "username": e.user.username,
+                "amount": e.amount_in_company_currency,
+                "currency": e.company.currency,
+                "category": e.category,
+                "status": e.status,
+                "created_at": e.created_at
+            }
+            for e in expenses
+        ]
+    }
+
 @router.get("/company-expenses")
 def get_all_company_expenses(company_id: int, admin_id: int, db: Session = Depends(get_db)):
     """Admin views all company expenses"""

@@ -169,7 +169,7 @@ def save_ocr_data(db, expense_id: int, ocr_data: Dict):
     
     ocr_record = OCRData(
         expense_id=expense_id,
-        extracted_data=json.dumps(ocr_data),
+        extracted_data=ocr_data,
         confidence_score=ocr_data.get("confidence_score", 0.5)
     )
     

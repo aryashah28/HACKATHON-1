@@ -265,23 +265,4 @@ export default function SubmitExpense() {
       </div>
     </div>
   );
-}
-
-        <input
-          type="text"
-          placeholder="Description"
-          className="border p-2 w-full rounded"
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
-        />
-
-        <button
-          className="bg-blue-600 text-white px-4 py-2 rounded w-full"
-          disabled={loading}
-        >
-          {loading ? "Submitting..." : "Submit"}
-        </button>
-      </form>
-    </div>
-  );
-}
+}

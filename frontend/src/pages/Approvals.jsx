@@ -34,7 +34,7 @@ export default function Approvals() {
     try {
       setSubmitting(true);
       await approveExpense(approval_id, decision, comments);
-      
+
       // Remove from list
       setApprovals(approvals.filter(a => a.approval_id !== approval_id));
       setSelectedApproval(null);
@@ -91,11 +91,10 @@ export default function Approvals() {
                 <div
                   key={approval.approval_id}
                   onClick={() => setSelectedApproval(approval)}
-                  className={`backdrop-blur-xl rounded-xl border transition cursor-pointer ${
-                    selectedApproval?.approval_id === approval.approval_id
+                  className={`backdrop-blur-xl rounded-xl border transition cursor-pointer ${selectedApproval?.approval_id === approval.approval_id
                       ? "bg-white/20 border-white/40"
                       : "bg-white/10 border-white/20 hover:bg-white/15"
-                  }`}
+                    }`}
                 >
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-4">
@@ -122,9 +121,8 @@ export default function Approvals() {
                       {[1, 2, 3].map((step) => (
                         <div
                           key={step}
-                          className={`flex-1 h-2 rounded-full ${
-                            step <= approval.step ? "bg-blue-500" : "bg-white/10"
-                          }`}
+                          className={`flex-1 h-2 rounded-full ${step <= approval.step ? "bg-blue-500" : "bg-white/10"
+                            }`}
                         />
                       ))}
                     </div>
@@ -199,30 +197,4 @@ export default function Approvals() {
       </div>
     </div>
   );
-}
-
-      {/* ✅ Data */}
-      {data.map((a) => (
-        <div key={a.id} className="bg-white p-4 mb-3 rounded shadow">
-          <p className="font-semibold">Expense #{a.expense_id}</p>
-
-          <div className="mt-2 flex gap-2">
-            <button
-              className="bg-green-500 text-white px-3 py-1 rounded"
-              onClick={() => act(a.id, "approved")}
-            >
-              Approve
-            </button>
-
-            <button
-              className="bg-red-500 text-white px-3 py-1 rounded"
-              onClick={() => act(a.id, "rejected")}
-            >
-              Reject
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
+}

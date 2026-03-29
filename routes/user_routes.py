@@ -8,7 +8,7 @@ from models.company import Company
 from schemas.user_schema import UserCreate, UserResponse
 from utils.security import hash_password
 
-router = APIRouter(prefix="/users", tags=["Users"])
+router = APIRouter(tags=["Users"])
 
 class ChangeRoleRequest(BaseModel):
     new_role: str
@@ -40,7 +40,7 @@ def get_company_users(company_id: int, admin_id: int, db: Session = Depends(get_
         ]
     }
 
-@router.put("/users/{user_id}/change_role")
+@router.put("/{user_id}/change_role")
 def change_user_role(user_id: int, request: ChangeRoleRequest, admin_id: int, db: Session = Depends(get_db)):
     """Admin changes user role"""
     admin = db.query(User).get(admin_id)
@@ -63,7 +63,7 @@ def change_user_role(user_id: int, request: ChangeRoleRequest, admin_id: int, db
         "message": f"User role changed to {request.new_role}"
     }
 
-@router.put("/users/{user_id}/assign_manager")
+@router.put("/{user_id}/assign_manager")
 def assign_manager(user_id: int, request: AssignManagerRequest, admin_id: int, db: Session = Depends(get_db)):
     """Admin assigns a manager to an employee"""
     admin = db.query(User).get(admin_id)
@@ -87,7 +87,7 @@ def assign_manager(user_id: int, request: AssignManagerRequest, admin_id: int, d
         "message": "Manager assigned successfully"
     }
 
-@router.delete("/users/{user_id}")
+@router.delete("/{user_id}")
 def delete_user(user_id: int, admin_id: int, db: Session = Depends(get_db)):
     """Admin deletes a user from company"""
     admin = db.query(User).get(admin_id)
