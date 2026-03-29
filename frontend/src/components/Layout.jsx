@@ -1,12 +1,14 @@
+import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 
-export default function Layout({ children }) {
+export default function Layout() {
   return (
-    <div className="flex">
+    <div className="flex h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
       <Navbar />
-
-      <main className="flex-1 p-6 bg-gray-100 min-h-screen">
-        {children}
+      <main className="flex-1 overflow-auto">
+        <div className="p-8">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

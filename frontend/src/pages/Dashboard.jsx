@@ -50,29 +50,29 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-full">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-slate-400"></div>
       </div>
     );
   }
 
   return (
     <div className="w-full">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Dashboard</h1>
+      <h1 className="text-3xl font-bold text-gray-100 mb-8">Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, idx) => (
           <div
             key={idx}
-            className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6"
+            className="glass-card-light shadow-lg hover:shadow-xl transition p-6 backdrop-blur-xl"
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-gray-600 text-sm font-medium">{stat.title}</p>
-                <p className="text-3xl font-bold text-gray-800 mt-2">
+                <p className="text-gray-300 text-sm font-medium">{stat.title}</p>
+                <p className="text-3xl font-bold text-gray-50 mt-2">
                   {stat.value}
                 </p>
               </div>
-              <div className={`${stat.bgColor} text-white p-3 rounded-lg`}>
+              <div className={`${stat.bgColor} text-white p-3 rounded-lg opacity-80`}>
                 {stat.icon}
               </div>
             </div>
@@ -80,15 +80,15 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="mt-8 bg-white rounded-xl shadow-md p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">
+      <div className="mt-8 glass-card-light shadow-lg p-6 backdrop-blur-xl">
+        <h2 className="text-xl font-bold text-gray-50 mb-4">
           Quick Actions
         </h2>
         <div className="flex flex-wrap gap-3">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">
+          <button className="backdrop-blur-lg bg-slate-600/40 hover:bg-slate-600/60 text-white px-6 py-2 rounded-lg transition border border-white/20 hover:border-white/40">
             Submit Expense
           </button>
-          <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition">
+          <button className="backdrop-blur-lg bg-slate-600/40 hover:bg-slate-600/60 text-white px-6 py-2 rounded-lg transition border border-white/20 hover:border-white/40">
             View Approvals
           </button>
         </div>
