@@ -10,12 +10,16 @@ export default function Expenses() {
 
   return (
     <div>
-      <h2>My Expenses</h2>
-      {data.map(e => (
-        <div key={e.id}>
-          {e.amount} - {e.status}
-        </div>
-      ))}
+      <h2 className="text-xl mb-4">My Expenses</h2>
+
+      <div className="grid grid-cols-3 gap-4">
+        {data.map(e => (
+          <div key={e.id} className="bg-white p-4 rounded-xl shadow">
+            <p className="font-bold">{e.amount}</p>
+            <p className="text-gray-500">{e.status}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
