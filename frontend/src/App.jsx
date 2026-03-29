@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import Submit from "./pages/Submit";
+import Submit from "./pages/SubmitExpense";
 import Expenses from "./pages/Expenses";
 import Approvals from "./pages/Approvals";
 import Navbar from "./components/Navbar";
