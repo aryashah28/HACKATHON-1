@@ -11,19 +11,33 @@ export default function Approvals() {
 
   const act = async (id, decision) => {
     await API.post("/approve", null, {
-      params: { approval_id: id, decision },
+      params: { approval_id: id, decision }
     });
     alert("Updated");
   };
 
   return (
     <div>
-      <h2>Approvals</h2>
+      <h2 className="text-xl mb-4">Approvals</h2>
+
       {data.map(a => (
-        <div key={a.id}>
-          Expense #{a.expense_id}
-          <button onClick={()=>act(a.id,"approved")}>Approve</button>
-          <button onClick={()=>act(a.id,"rejected")}>Reject</button>
+        <div key={a.id} className="bg-white p-4 mb-3 rounded shadow">
+          <p>Expense #{a.expense_id}</p>
+          <div className="mt-2 flex gap-2">
+            <button
+              className="bg-green-500 text-white px-3 py-1 rounded"
+              onClick={() => act(a.id, "approved")}
+            >
+              Approve
+            </button>
+
+            <button
+              className="bg-red-500 text-white px-3 py-1 rounded"
+              onClick={() => act(a.id, "rejected")}
+            >
+              Reject
+            </button>
+          </div>
         </div>
       ))}
     </div>

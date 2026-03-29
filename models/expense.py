@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, Float, String
 from database.db import Base
 
 class Expense(Base):
-    tablename = "expenses"
+    __tablename__ = "expenses"
     id = Column(Integer, primary_key=True)
     amount = Column(Float)
     currency = Column(String)
