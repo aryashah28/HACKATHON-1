@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 
----------------- REQUEST SCHEMAS ----------------
+#---------------- REQUEST SCHEMAS ----------------
 class UserCreate(BaseModel):
     username: str = Field(..., min_length=3, max_length=50)
     password: str = Field(..., min_length=6)
@@ -15,7 +15,7 @@ class UserLogin(BaseModel):
     password: str
 
 
----------------- RESPONSE SCHEMAS ----------------
+#---------------- RESPONSE SCHEMAS ---------------
 class UserResponse(BaseModel):
     id: int
     username: str
@@ -26,7 +26,7 @@ class UserResponse(BaseModel):
         from_attributes = True   # for SQLAlchemy compatibility
 
 
----------------- TOKEN SCHEMA ----------------
+#---------------- TOKEN SCHEMA ----------------
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
