@@ -40,7 +40,10 @@ export default function Login() {
         password,
       });
       localStorage.setItem("token", res.data.access_token);
-      nav("/");
+      if (res.data.user) {
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+      }
+      nav("/dashboard");
     } catch (err) {
       setError(err.response?.data?.detail || "Login failed. Please try again.");
     } finally {
@@ -148,9 +151,13 @@ export default function Login() {
               </p>
               <p className="text-gray-600">
                 Don't have an account?{" "}
-                <a href="#" className="text-blue-600 hover:text-blue-700 font-semibold">
+                <button
+                  type="button"
+                  onClick={() => nav("/register")}
+                  className="text-blue-600 hover:text-blue-700 font-semibold"
+                >
                   Sign up here
-                </a>
+                </button>
               </p>
             </div>
           </form>
